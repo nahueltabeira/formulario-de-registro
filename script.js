@@ -5,24 +5,41 @@ form.addEventListener("submit", evento =>{
     let nombre =document.getElementById("nombre").value;
     let apellido =document.getElementById("apellido").value
     let fnac=document.getElementById("fnac").value
-
-    let datosFormulario = new FormData (form);
-    console.log(datosFormulario);
+    
+    const formData = {
+        nombre: nombre,
+        apellido: apellido,
+        fechaNacimiento: fnac
+    };
 
   
-    fetch("https://jsonplaceholder.typicode.com/users", {
-    
-    method: "POST",
-    body: datosFormulario
-})
-   
+   fetch('https://jsonplaceholder.typicode.com/users', {
 
-.then((response) => response.json())
-    
-.then(()=>{
+    method: 'POST',
+
+
+    headers: {
+        'Content-Type': 'application/json'
+    },
+
+
+    body: JSON.stringify(formData)
+})
+
+.then(response => response.json())
+.then(data => {
+
+    console.log(data);
+})
+
+.catch(error => {
+
+    console.error('Error:', error);
+});
+   
         document.getElementById("resultado").innerHTML = `Se registraron los datos en la API 
         Nombre: ${nombre} <br>
         Apellido: ${apellido} <br>
         Fecha de nacimiento: ${fnac}<br>`
     });
-     })
+     
